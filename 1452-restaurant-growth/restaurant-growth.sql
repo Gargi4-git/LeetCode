@@ -1,26 +1,21 @@
-WITH daily_amount AS (
-    -- Step 1: Get total amount spent per day
-    SELECT visited_on, SUM(amount) AS amount
-    FROM Customer
-    GROUP BY visited_on
-),
-rolling_window AS (
-    -- Step 2: Calculate 7-day moving sum and average using window functions
-    SELECT 
-        visited_on,
-        SUM(amount) OVER (
-            ORDER BY visited_on 
-            ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
-        ) AS amount,
-        ROUND(AVG(amount) OVER (
-            ORDER BY visited_on 
-            ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
-        ), 2) AS average_amount,
-        ROW_NUMBER() OVER (ORDER BY visited_on) AS rn
-    FROM daily_amount
+SELECT 
+    visited_on,
+    (
+        SELECT SUM(amount)
+        FROM customer
+        WHERE visited_on BETWEEN DATE_SUB(c.visited_on, INTERVAL 6 DAY) AND c.visited_on
+    ) AS amount,
+    ROUND(
+        (
+            SELECT SUM(amount)
+            FROM customer
+            WHERE visited_on BETWEEN DATE_SUB(c.visited_on, INTERVAL 6 DAY) AND c.visited_on
+        ) / 7, 2
+    ) AS average_amount
+FROM customer c
+WHERE visited_on >= (
+    SELECT DATE_ADD(MIN(visited_on), INTERVAL 6 DAY)
+    FROM customer
 )
--- Step 3: Select rows starting from the 7th day onwards
-SELECT visited_on, amount, average_amount
-FROM rolling_window
-WHERE rn >= 7
+GROUP BY visited_on
 ORDER BY visited_on;
