@@ -1,4 +1,4 @@
-<h1>232 - Implement Queue using Stacks</h1><h2>Difficulty: Easy - <a href="https://leetcode.com/problems/implement-queue-using-stacks/">implement-queue-using-stacks</a></h2><p>Implement a first in first out (FIFO) queue using only two stacks. The implemented queue should support all the functions of a normal queue (<code>push</code>, <code>peek</code>, <code>pop</code>, and <code>empty</code>).</p>
+<h2><a href="https://leetcode.com/problems/implement-queue-using-stacks">Implement Queue using Stacks</a></h2> <img src='https://img.shields.io/badge/Difficulty-Easy-brightgreen' alt='Difficulty: Easy' /><hr><p>Implement a first in first out (FIFO) queue using only two stacks. The implemented queue should support all the functions of a normal queue (<code>push</code>, <code>peek</code>, <code>pop</code>, and <code>empty</code>).</p>
 
 <p>Implement the <code>MyQueue</code> class:</p>
 
